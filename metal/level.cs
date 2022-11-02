@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Newtonsoft.Json;
 
 namespace metal
 {
@@ -26,6 +27,17 @@ namespace metal
         public Block[,] blocks { get; private set; }
         public List<PhysicalObject> objects { get; private set; }
 
+        /// <summary>
+        /// Just for json. DON'T. FUCKING. USE. IT.
+        /// </summary>
+        public Level() { }
+
+        /// <summary>
+        /// Standart init, just for testing. INIT FROM JSON FILE FOR EVERYTHING ELSE
+        /// </summary>
+        /// <param name="contentManager"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public Level(ContentManager contentManager, int x, int y, string name)
         { 
             Name = name;
@@ -48,7 +60,7 @@ namespace metal
 
             objects.Add(new Hero(contentManager, 2f, 2f));
         }
-        
+
         public void Update(ContentManager contentManager)
         {
             for(int i=0; i<objects.Count; i++)

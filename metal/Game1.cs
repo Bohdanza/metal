@@ -42,6 +42,8 @@ namespace metal
 
             testLevel = new Level(Content, 20, 20, "level1");
 
+            JsonWriter.WriteToJsonFile<Level>("levels/" + testLevel.Name, testLevel);
+
             base.Initialize();
         }
 
