@@ -8,21 +8,30 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Newtonsoft.Json;
 
 namespace metal
 {
     public abstract class PhysicalObject
     {
+        [JsonProperty]
         public bool Rigid { get; protected set; }
+        [JsonProperty]
         public bool GravitationAffected { get; protected set; }
-
+        
+        [JsonProperty]
         public virtual float X1 { get; protected set; }
+        [JsonProperty]
         public virtual float Y1 { get; protected set; }
+        [JsonProperty]
         public virtual float X2 { get; protected set; }
+        [JsonProperty]
         public virtual float Y2 { get; protected set; }
 
-        public virtual DynamicTexture Texture { get; protected set; }    
+        [JsonProperty]
+        public virtual DynamicTexture Texture { get; protected set; }
 
+        [JsonProperty]
         public Vector2 Vector { get; private set; }
 
         /// <summary>
@@ -64,7 +73,7 @@ namespace metal
             Vector = new Vector2(0, 0);
         }
 
-        public virtual void Update(Level level)
+        public virtual void Update(ContentManager contentManager, Level level)
         {
             X1 += Vector.X;
             X2 += Vector.X;
@@ -137,7 +146,7 @@ namespace metal
                 AddVector(new Vector2(0f, Level.Gravity));
             }
 
-            Texture.Update();
+            Texture.Update(contentManager);
         }
 
         public virtual void Draw(SpriteBatch spriteBatch, int x, int y, Color color) 

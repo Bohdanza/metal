@@ -8,11 +8,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Newtonsoft.Json;
 
 namespace metal
 {
     public class DynamicTexture
     {
+        [JsonProperty]
         public string BaseName { get; protected set; }
 
         protected List<Texture2D> Textures { get; set; }
@@ -31,28 +33,42 @@ namespace metal
         /// <param name="contentManager">guess what u must pass here</param>
         public void Load(ContentManager contentManager)
         {
-            Textures = new List<Texture2D>();
-            CurrentTexture = 0;
-
-            while (File.Exists(@"Content\" + BaseName + CurrentTexture.ToString() + ".xnb"))
+            if (contentManager != null)
             {
-                Textures.Add(contentManager.Load<Texture2D>(BaseName + CurrentTexture.ToString()));
+                Textures = new List<Texture2D>();
+                CurrentTexture = 0;
 
-                CurrentTexture++;
+                while (File.Exists(@"Content\" + BaseName + CurrentTexture.ToString() + ".xnb"))
+                {
+                    Textures.Add(contentManager.Load<Texture2D>(BaseName + CurrentTexture.ToString()));
+
+                    CurrentTexture++;
+                }
+
+                CurrentTexture = 0;
             }
-
-            CurrentTexture = 0;
+            else
+            {
+                Textures = null;
+            }
         }
 
         /// <summary>
         /// used to move current frame and stuff
         /// </summary>
-        public void Update()
+        public void Update(ContentManager contentManager)
         {
-            CurrentTexture++;
+            if (Textures == null)
+            {
+                Load(contentManager);
+            }
+            else
+            {
+                CurrentTexture++;
 
-            if (CurrentTexture >= Textures.Count)
-                CurrentTexture = 0;
+                if (CurrentTexture >= Textures.Count)
+                    CurrentTexture = 0;
+            }
         }
 
         /// <summary>
@@ -61,7 +77,10 @@ namespace metal
         /// <returns></returns>
         public Texture2D GetCurrentFrame()
         {
-            return Textures[CurrentTexture];
+            if (Textures != null)
+                return Textures[CurrentTexture];
+            else
+                return Game1.NoTexture;
         }
     }
 }

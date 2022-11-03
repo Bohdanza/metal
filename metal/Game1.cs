@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text.Json;
 
 namespace metal
 {
@@ -17,6 +18,7 @@ namespace metal
         private SpriteBatch _spriteBatch;
         private Level testLevel;
         private int xlev = 0, ylev = 0;
+        public static Texture2D NoTexture;
 
         public Game1()
         {
@@ -38,11 +40,12 @@ namespace metal
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            NoTexture = Content.Load<Texture2D>("no_texture");
 
-            testLevel = new Level(Content, 20, 20, "level1");
+            testLevel = Level.Load("level1");
 
-            JsonWriter.WriteToJsonFile<Level>("levels/" + testLevel.Name, testLevel);
+            //testLevel = new Level(Content, 20, 20, "level1");
+            //testLevel.Save();
 
             base.Initialize();
         }

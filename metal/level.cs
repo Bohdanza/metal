@@ -18,19 +18,22 @@ namespace metal
 
         public const int BlockX = 100;
         public const int BlockY = 100;
-
-        public string Name { get; private set; }
         
+        [JsonProperty]
+        public string Name { get; private set; }
+
+        [JsonProperty]
         public int Width { get; private set; }
+        [JsonProperty]
         public int Height { get; private set; }
 
-        public Block[,] blocks { get; private set; }
+        [JsonProperty]
+        public Block[,] blocks { get; private set ; }
+        [JsonProperty]
         public List<PhysicalObject> objects { get; private set; }
 
-        /// <summary>
-        /// Just for json. DON'T. FUCKING. USE. IT.
-        /// </summary>
-        public Level() { }
+        [JsonConstructor]
+        public Level() {}
 
         /// <summary>
         /// Standart init, just for testing. INIT FROM JSON FILE FOR EVERYTHING ELSE
@@ -63,9 +66,15 @@ namespace metal
 
         public void Update(ContentManager contentManager)
         {
-            for(int i=0; i<objects.Count; i++)
+            for (int i = 0; i < Width; i++)
+                for (int j = 0; j < Height; j++)
+                {
+                    blocks[i, j].Update(contentManager, this);
+                }
+
+            for (int i=0; i<objects.Count; i++)
             {
-                objects[i].Update(this);
+                objects[i].Update(contentManager, this);
             }
         }
 
@@ -84,6 +93,32 @@ namespace metal
                 objects[i].Draw(spriteBatch, 
                     x+(int)((float)objects[i].X1 * BlockX), y+(int)((float)objects[i].Y1 * BlockY), 
                     Color.White);
+            }
+        }
+
+        public void Save()
+        {
+            using (StreamWriter sw = new StreamWriter("levels/" + Name))
+            {
+                string str = JsonConvert.SerializeObject(this, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Auto
+                });
+
+                sw.Write(str);
+            }
+        }
+
+        public static Level Load(string name)
+        {
+            using (StreamReader sr = new StreamReader("levels/" + name))
+            {
+                string str = sr.ReadToEnd();
+
+                return JsonConvert.DeserializeObject<Level>(str, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Auto,
+                }) ;
             }
         }
 

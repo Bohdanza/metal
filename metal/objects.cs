@@ -18,7 +18,7 @@ namespace metal
 
         }
 
-        public override void Update(Level level)
+        public override void Update(ContentManager contentManager, Level level)
         {
             var ks = Keyboard.GetState();
 
@@ -35,7 +35,7 @@ namespace metal
             if (ks.IsKeyDown(Keys.Right))
                 AddVector(new Vector2(0.05f, 0));
 
-            base.Update(level);
+            base.Update(contentManager, level);
         }
     }
 }

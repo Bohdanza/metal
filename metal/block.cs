@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Newtonsoft.Json;
 
 namespace metal
 {
@@ -32,7 +33,7 @@ namespace metal
 
         public virtual void Update(ContentManager contentManager, Level level)
         {
-            Texture.Update();
+            Texture.Update(contentManager);
         }
 
         public virtual void Draw(SpriteBatch spriteBatch, int x, int y, Color color)
