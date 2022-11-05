@@ -18,6 +18,12 @@ namespace metal
 
         }
 
+        public Hero(ContentManager contentManager, float x, float y, double layer)
+            : base(contentManager, "hero", x, y, x+0.7f, y+0.9f, layer)
+        {
+
+        }
+
         public override void Update(ContentManager contentManager, Level level)
         {
             var ks = Keyboard.GetState();

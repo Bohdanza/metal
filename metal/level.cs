@@ -42,14 +42,14 @@ namespace metal
         /// <param name="x"></param>
         /// <param name="y"></param>
         public Level(ContentManager contentManager, int x, int y, string name)
-        { 
+        {   
             Name = name;
 
             Width = x;
             Height = y;
 
             blocks = new Block[Width, Height];
-
+            
             for(int i=0; i<Width; i++)
                 for (int j = 0; j < Height; j++)
                 {
@@ -61,7 +61,8 @@ namespace metal
 
             objects = new List<PhysicalObject>();
 
-            objects.Add(new Hero(contentManager, 2f, 2f));
+            AddObject(new Hero(contentManager, 2f, 2f, 0.9));
+            AddObject(new Box(contentManager, 5f, 10f, 0.9f, 0.9f, "wooden_box", 0.5));
         }
 
         public void Update(ContentManager contentManager)
@@ -124,18 +125,20 @@ namespace metal
 
         public bool PointObstructed(float x, float y, PhysicalObject physicalObject)
         {
-            if(!blocks[(int)Math.Floor(x), (int)Math.Floor(y)].Passable)
+            if(physicalObject.BlockRigid && !blocks[(int)Math.Floor(x), (int)Math.Floor(y)].Passable)
             {
                 return true;
             }
 
-            foreach(var currentObject in objects)
-            {
-                if(currentObject!=physicalObject&&currentObject.Rigid&&PointBelongs(x, y, currentObject.X1, currentObject.Y1, currentObject.X2, currentObject.Y2))
+            if(physicalObject.ObjectRigid)
+                foreach(var currentObject in objects)
                 {
-                    return true;
+                    if(currentObject!=physicalObject&&currentObject.ObjectRigid
+                        && PointBelongs(x, y, currentObject.X1, currentObject.Y1, currentObject.X2, currentObject.Y2))
+                    {
+                        return true;
+                    }
                 }
-            }
 
             return false;
         }
@@ -158,6 +161,34 @@ namespace metal
             }
 
             return false;
+        }
+
+        public void AddObject(PhysicalObject physicalObject)
+        {
+            if (objects.Count < 1)
+            {
+                objects.Add(physicalObject);
+                
+                return;
+            }
+
+            double lr = physicalObject.Layer;
+            int l = 0, r = objects.Count-1;
+
+            while (l<r-1)
+            {
+                int mid = (l + r) / 2;
+
+                if (objects[mid].Layer < lr)
+                    l = mid;
+                else
+                    r = mid;
+            }
+
+            if (objects[r].Layer < physicalObject.Layer)
+                objects.Insert(r, physicalObject);
+            else
+                objects.Insert(l, physicalObject);
         }
     }
 }

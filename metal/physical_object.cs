@@ -15,7 +15,10 @@ namespace metal
     public abstract class PhysicalObject
     {
         [JsonProperty]
-        public bool Rigid { get; protected set; }
+        public bool BlockRigid { get; protected set; }
+        [JsonProperty]
+        public bool ObjectRigid { get; protected set; }
+
         [JsonProperty]
         public bool GravitationAffected { get; protected set; }
         
@@ -34,6 +37,9 @@ namespace metal
         [JsonProperty]
         public Vector2 Vector { get; private set; }
 
+        [JsonProperty]
+        public double Layer { get; private set; } = 0.5;
+
         /// <summary>
         /// initializer with rigidness and gravitation enabled
         /// </summary>
@@ -50,7 +56,28 @@ namespace metal
             X2 = x2;
             Y2 = y2;
 
-            Rigid = true;
+            BlockRigid = true;
+            ObjectRigid = true;
+
+            GravitationAffected = true;
+
+            Texture = new DynamicTexture(contentManager, name);
+            Vector = new Vector2(0, 0);
+        }
+
+        protected PhysicalObject(ContentManager contentManager, string name, 
+            float x1, float y1, float x2, float y2, double layer)
+        {
+            Layer = layer;
+
+            X1 = x1;
+            Y1 = y1;
+            X2 = x2;
+            Y2 = y2;
+
+            BlockRigid = true;
+            ObjectRigid = true;
+
             GravitationAffected = true;
 
             Texture = new DynamicTexture(contentManager, name);
@@ -59,14 +86,36 @@ namespace metal
 
         protected PhysicalObject(ContentManager contentManager, string name, 
             float x1, float y1, float x2, float y2,
-            bool gravitationAffected, bool rigid)
+            bool gravitationAffected, bool blockRigid, bool objectRigid)
         {
             X1 = x1;
             Y1 = y1;
             X2 = x2;
             Y2 = y2;
 
-            Rigid = rigid;
+            BlockRigid = blockRigid;
+            ObjectRigid = objectRigid;
+
+            GravitationAffected = gravitationAffected;
+
+            Texture = new DynamicTexture(contentManager, name);
+            Vector = new Vector2(0, 0);
+        }
+
+        protected PhysicalObject(ContentManager contentManager, string name,
+            float x1, float y1, float x2, float y2,
+            bool gravitationAffected, bool blockRigid, bool objectRigid, double layer)
+        {
+            Layer = layer;
+
+            X1 = x1;
+            Y1 = y1;
+            X2 = x2;
+            Y2 = y2;
+
+            BlockRigid = blockRigid;
+            ObjectRigid = objectRigid;
+
             GravitationAffected = gravitationAffected;
 
             Texture = new DynamicTexture(contentManager, name);

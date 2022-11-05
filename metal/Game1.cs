@@ -42,10 +42,8 @@ namespace metal
         {
             NoTexture = Content.Load<Texture2D>("no_texture");
 
-            testLevel = Level.Load("level1");
-
-            //testLevel = new Level(Content, 20, 20, "level1");
-            //testLevel.Save();
+            testLevel = new Level(Content, 24, 24, "level1");
+            testLevel.Save();
 
             base.Initialize();
         }
