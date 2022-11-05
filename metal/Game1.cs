@@ -26,6 +26,8 @@ namespace metal
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
+            this.IsFixedTimeStep = true;
+            this.TargetElapsedTime = TimeSpan.FromSeconds(1d / 60d);
             _graphics.ApplyChanges();
 
             _graphics.PreferredBackBufferWidth = 1920;

@@ -14,6 +14,10 @@ namespace metal
 {
     public class DynamicTexture
     {
+        public const int FrameDelay = 14;
+
+        private int TimeSinceLastUpdate = 0;
+
         [JsonProperty]
         public string BaseName { get; protected set; }
 
@@ -51,6 +55,8 @@ namespace metal
             {
                 Textures = null;
             }
+
+            TimeSinceLastUpdate = 0;
         }
 
         /// <summary>
@@ -58,16 +64,23 @@ namespace metal
         /// </summary>
         public void Update(ContentManager contentManager)
         {
-            if (Textures == null)
-            {
-                Load(contentManager);
-            }
-            else
-            {
-                CurrentTexture++;
+            TimeSinceLastUpdate++;
 
-                if (CurrentTexture >= Textures.Count)
-                    CurrentTexture = 0;
+            if (TimeSinceLastUpdate > FrameDelay)
+            {
+                TimeSinceLastUpdate = 0;
+
+                if (Textures == null)
+                {
+                    Load(contentManager);
+                }
+                else
+                {
+                    CurrentTexture++;
+
+                    if (CurrentTexture >= Textures.Count)
+                        CurrentTexture = 0;
+                }
             }
         }
 
