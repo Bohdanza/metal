@@ -20,7 +20,7 @@ namespace metal
         }
 
         public Box(ContentManager contentManager, float x, float y, float width, float hight, string textureName, double layer) :
-            base(contentManager, textureName, x, y, x + width, y + hight, true, true, false, layer)
+            base(contentManager, textureName, x, y, x + width, y + hight, true, true, true, layer)
         {
 
         }

@@ -18,6 +18,7 @@ namespace metal
         public string Action { get; private set; }
         [JsonProperty]
         public string Direction { get; private set; }
+        
         private string Name;
 
         public Mob(ContentManager contentManager, float x1, float y1, float x2, float y2, 
@@ -38,6 +39,39 @@ namespace metal
 
             Texture = new DynamicTexture(contentManager, name + "_" + Action + "_" + Direction);
             Name = name;
+        }
+
+        public override void Update(ContentManager contentManager, Level level)
+        {
+            if(Vector.Y<-0.01)
+            {
+                ChangeAction(contentManager, "jumping");
+            }
+
+            if (Vector.Y > 0.01)
+            {
+                ChangeAction(contentManager, "falling");
+            }
+
+            if (Math.Abs(Vector.X) > 0.01)
+            {
+                if (Landed)
+                    ChangeAction(contentManager, "walking");
+
+                if (Vector.X > 0.01)
+                {
+                    ChangeDirection(contentManager, "d");
+                }
+
+                if (Vector.X < 0.01)
+                {
+                    ChangeDirection(contentManager, "a");
+                }
+            }
+            else if (Landed)
+                ChangeAction(contentManager, "id");
+
+            base.Update(contentManager, level);
         }
 
         protected void ChangeAction(ContentManager contentManager, string action)

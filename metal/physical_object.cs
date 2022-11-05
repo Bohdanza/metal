@@ -39,6 +39,7 @@ namespace metal
 
         [JsonProperty]
         public double Layer { get; private set; } = 0.5;
+        protected bool Landed { get; private set; } = false;
 
         /// <summary>
         /// initializer with rigidness and gravitation enabled
@@ -124,6 +125,20 @@ namespace metal
 
         public virtual void Update(ContentManager contentManager, Level level)
         {
+            bool b1 = level.PointObstructed(X1, Y1 + 0.0001f, this);
+            bool b2 = level.PointObstructed(X1, Y2 + 0.0001f, this);
+            bool b3 = level.PointObstructed(X2, Y1 + 0.0001f, this);
+            bool b4 = level.PointObstructed(X2, Y2 + 0.0001f, this);
+
+            if (b1 || b2 || b3 || b4)
+            {
+                Landed = true;
+            }
+            else
+            {
+                Landed = false;
+            }
+
             X1 += Vector.X;
             X2 += Vector.X;
 
@@ -187,7 +202,7 @@ namespace metal
                 AddVector(new Vector2(0f, -Vector.Y+l));
 
                 Y1 += Vector.Y;
-                Y2 += Vector.Y;
+                Y2 += Vector.Y;    
             }
 
             if(GravitationAffected)

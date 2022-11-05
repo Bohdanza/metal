@@ -29,42 +29,19 @@ namespace metal
         {
             var ks = Keyboard.GetState();
 
-            if (ks.IsKeyDown(Keys.Space) || ks.IsKeyDown(Keys.W))
-                if (level.PointObstructed(X1, Y1 + 0.0001f, this) ||
-                level.PointObstructed(X1, Y2 + 0.0001f, this) ||
-                level.PointObstructed(X2, Y1 + 0.0001f, this) ||
-                level.PointObstructed(X2, Y2 + 0.0001f, this))
-                {
-                    AddVector(new Vector2(0, -0.2f));
-                    ChangeAction(contentManager, "jumping");
-                }
-
-            if(Action=="jumping"&& (level.PointObstructed(X1, Y1 + 0.0001f, this) ||
-                level.PointObstructed(X1, Y2 + 0.0001f, this) ||
-                level.PointObstructed(X2, Y1 + 0.0001f, this) ||
-                level.PointObstructed(X2, Y2 + 0.0001f, this)))
+            if (ks.IsKeyDown(Keys.Space) && Landed)
             {
-                ChangeAction(contentManager, "id");
+                AddVector(new Vector2(0, -0.09f));
             }
 
             if (ks.IsKeyDown(Keys.Left))
             {
-                ChangeDirection(contentManager, "d");
-
-                if (Action == "id")
-                    ChangeAction(contentManager, "walking");
-
-                AddVector(new Vector2(-0.05f, 0));
+                AddVector(new Vector2(-0.02f, 0));
             }
 
             if (ks.IsKeyDown(Keys.Right))
             {
-                ChangeDirection(contentManager, "a");
-
-                if (Action == "id")
-                    ChangeAction(contentManager, "walking");
-
-                AddVector(new Vector2(0.05f, 0));
+                AddVector(new Vector2(0.02f, 0));
             }
 
             base.Update(contentManager, level);

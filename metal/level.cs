@@ -77,7 +77,7 @@ namespace metal
             {
                 objects[i].Update(contentManager, this);
             }
-        }
+        }   
 
         public void Draw(SpriteBatch spriteBatch, int x, int y)
         {
