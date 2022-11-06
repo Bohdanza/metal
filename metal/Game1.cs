@@ -44,7 +44,7 @@ namespace metal
         {
             NoTexture = Content.Load<Texture2D>("no_texture");
 
-            testLevel = new Level(Content, 24, 24, "level1");
+            testLevel = new Level(Content, 24, 24, "level1", "level1back");
             testLevel.Save();
 
             base.Initialize();
@@ -74,6 +74,12 @@ namespace metal
                 xlev += 10;
             if (ks.IsKeyDown(Keys.D))
                 xlev -= 10;
+
+            xlev = Math.Max(-testLevel.Width * Level.BlockX+1920, xlev);
+            xlev = Math.Min(0, xlev);
+
+            ylev = Math.Max(-testLevel.Height * Level.BlockY+1080, ylev);
+            ylev = Math.Min(0, ylev);
 
             testLevel.Update(Content);
 

@@ -32,6 +32,11 @@ namespace metal
         [JsonProperty]
         public List<PhysicalObject> objects { get; private set; }
 
+        [JsonProperty]
+        private string BackgroundName;
+
+        private DynamicTexture BackgroundTexture=null;
+
         [JsonConstructor]
         public Level() {}
 
@@ -41,8 +46,11 @@ namespace metal
         /// <param name="contentManager"></param>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        public Level(ContentManager contentManager, int x, int y, string name)
-        {   
+        public Level(ContentManager contentManager, int x, int y, string name, string backgroundTextureName)
+        {
+            BackgroundName = backgroundTextureName;
+            BackgroundTexture = new DynamicTexture(contentManager, BackgroundName);
+
             Name = name;
 
             Width = x;
@@ -67,6 +75,11 @@ namespace metal
 
         public void Update(ContentManager contentManager)
         {
+            if (BackgroundTexture == null)
+                BackgroundTexture = new DynamicTexture(contentManager, BackgroundName);
+            else
+                BackgroundTexture.Update(contentManager);
+
             for (int i = 0; i < Width; i++)
                 for (int j = 0; j < Height; j++)
                 {
@@ -81,6 +94,14 @@ namespace metal
 
         public void Draw(SpriteBatch spriteBatch, int x, int y)
         {
+            if(BackgroundTexture!=null)
+            {
+                Texture2D toDraw = BackgroundTexture.GetCurrentFrame();
+
+                spriteBatch.Draw(toDraw, new Vector2((int)((double)x / (Width * BlockX-1920) * (toDraw.Width-1920)),
+                    (int)((double)y / (Height * BlockY-1080) * (toDraw.Height-1080))), Color.White);
+            }
+
             for (int i = Math.Max(0, -x / BlockX); i < Math.Min(Width, (1920 - x) / BlockX + 1); i++)
             {
                 for (int j = Math.Max(0, -y / BlockY); j < Math.Min(Height, (1080 - y) / BlockY + 1); j++)

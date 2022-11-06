@@ -19,6 +19,10 @@ namespace metal
         [JsonProperty]
         public string Direction { get; private set; }
         
+        [JsonProperty]
+        public int HP { get; private set; }
+
+        [JsonProperty]
         private string Name;
 
         public Mob(ContentManager contentManager, float x1, float y1, float x2, float y2, 
@@ -91,6 +95,16 @@ namespace metal
                 Direction = direction;
 
                 Texture = new DynamicTexture(contentManager, Name + "_" + Action + "_" + Direction);
+            }
+        }
+
+        public void ChangeHP(ContentManager contentManager, int addHP)
+        {
+            HP += addHP;
+
+            if(HP<=0)
+            {
+                Action = "die";
             }
         }
     }
