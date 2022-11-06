@@ -75,10 +75,10 @@ namespace metal
             if (ks.IsKeyDown(Keys.D))
                 xlev -= 10;
 
-            xlev = Math.Max(-testLevel.Width * Level.BlockX+1920, xlev);
+            xlev = Math.Max(-testLevel.Width * Level.BlockX * Level.TextureScale + 1920, xlev);
             xlev = Math.Min(0, xlev);
 
-            ylev = Math.Max(-testLevel.Height * Level.BlockY+1080, ylev);
+            ylev = Math.Max(-testLevel.Height * Level.BlockY * Level.TextureScale + 1080, ylev);
             ylev = Math.Min(0, ylev);
 
             testLevel.Update(Content);
@@ -90,7 +90,7 @@ namespace metal
         {
             GraphicsDevice.Clear(Color.Black);
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
 
             testLevel.Draw(_spriteBatch, xlev, ylev);
 

@@ -213,8 +213,11 @@ namespace metal
             Texture.Update(contentManager);
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch, int x, int y, Color color) 
-        { spriteBatch.Draw(Texture.GetCurrentFrame(), new Vector2(x, y), color); }
+        public virtual void Draw(SpriteBatch spriteBatch, int x, int y, Color color)
+        {
+            spriteBatch.Draw(Texture.GetCurrentFrame(), new Vector2(x, y), null,
+                color, 0f, new Vector2(0, 0), Level.TextureScale, SpriteEffects.None, 0f);
+        }
         
         public virtual void AddVector(Vector2 vector)
         {

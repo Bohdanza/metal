@@ -16,9 +16,15 @@ namespace metal
     {
         public const float Gravity = 0.01f;
 
-        public const int BlockX = 100;
-        public const int BlockY = 100;
-        
+        public const int BlockX = 20;
+        public const int BlockY = 20;
+
+        [JsonProperty]
+        public static int TextureScale= 5;
+
+        [JsonProperty]
+        public static int BackgroundScale = 6;
+
         [JsonProperty]
         public string Name { get; private set; }
 
@@ -98,22 +104,24 @@ namespace metal
             {
                 Texture2D toDraw = BackgroundTexture.GetCurrentFrame();
 
-                spriteBatch.Draw(toDraw, new Vector2((int)((double)x / (Width * BlockX-1920) * (toDraw.Width-1920)),
-                    (int)((double)y / (Height * BlockY-1080) * (toDraw.Height-1080))), Color.White);
+                spriteBatch.Draw(toDraw, new Vector2(
+                    (int)((double)x / (Width * BlockX * TextureScale - 1920) * (toDraw.Width * BackgroundScale - 1920)),
+                    (int)((double)y / (Height * BlockY * TextureScale - 1080) * (toDraw.Height * BackgroundScale - 1080))),
+                    null, Color.White, 0f, new Vector2(0, 0), BackgroundScale, SpriteEffects.None, 0f);
             }
 
-            for (int i = Math.Max(0, -x / BlockX); i < Math.Min(Width, (1920 - x) / BlockX + 1); i++)
+            for (int i = Math.Max(0, -x / (BlockX*TextureScale)); i < Math.Min(Width, (1920 - x) / (BlockX * TextureScale) + 1); i++)
             {
-                for (int j = Math.Max(0, -y / BlockY); j < Math.Min(Height, (1080 - y) / BlockY + 1); j++)
+                for (int j = Math.Max(0, -y / (BlockY*TextureScale)); j < Math.Min(Height, (1080 - y) / (BlockY * TextureScale) + 1); j++)
                 {
-                    blocks[i, j].Draw(spriteBatch, x + i * BlockX, y + j * BlockY, Color.White);
+                    blocks[i, j].Draw(spriteBatch, x + i * BlockX * TextureScale, y + j * BlockY * TextureScale, Color.White);
                 }
             }
 
             for (int i = 0; i < objects.Count; i++)
             {
-                objects[i].Draw(spriteBatch, 
-                    x+(int)((float)objects[i].X1 * BlockX), y+(int)((float)objects[i].Y1 * BlockY), 
+                objects[i].Draw(spriteBatch,
+                    x + (int)((float)objects[i].X1 * BlockX * TextureScale), y + (int)((float)objects[i].Y1 * BlockY * TextureScale),
                     Color.White);
             }
         }

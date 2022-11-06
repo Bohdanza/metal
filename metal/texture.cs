@@ -15,7 +15,6 @@ namespace metal
     public class DynamicTexture
     {
         public const int FrameDelay = 9;
-
         private int TimeSinceLastUpdate = 0;
 
         [JsonProperty]

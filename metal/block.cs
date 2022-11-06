@@ -38,8 +38,8 @@ namespace metal
 
         public virtual void Draw(SpriteBatch spriteBatch, int x, int y, Color color)
         {
-            spriteBatch.Draw(Texture.GetCurrentFrame(), new Vector2(x, y+Level.BlockY-Texture.GetCurrentFrame().Height),
-                color);
+            spriteBatch.Draw(Texture.GetCurrentFrame(), new Vector2(x, y+Level.BlockY-Texture.GetCurrentFrame().Height), null, 
+                color, 0f, new Vector2(0, 0), Level.TextureScale, SpriteEffects.None, 0f);
         }
     }
 }
