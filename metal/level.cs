@@ -35,6 +35,7 @@ namespace metal
 
         [JsonProperty]
         public Block[,] blocks { get; private set ; }
+
         [JsonProperty]
         public List<PhysicalObject> objects { get; private set; }
 
@@ -43,8 +44,19 @@ namespace metal
 
         private DynamicTexture BackgroundTexture=null;
 
+        public PhysicalObject Hero { get; private set; }
+
         [JsonConstructor]
-        public Level() {}
+        public Level() 
+        { 
+            for (int i=0; i<objects.Count; i++) 
+            { 
+                if(objects[i] is Hero)
+                {
+                    Hero = objects[i];
+                }
+            } 
+        }
 
         /// <summary>
         /// Standart init, just for testing. INIT FROM JSON FILE FOR EVERYTHING ELSE
@@ -75,7 +87,7 @@ namespace metal
 
             objects = new List<PhysicalObject>();
 
-            AddObject(new Hero(contentManager, 2f, 2f, 0.9));
+            Hero = AddObject(new Hero(contentManager, 2f, 2f, 0.9));
             AddObject(new Box(contentManager, 5f, 10f, 0.9f, 0.9f, "wooden_box", 0.5));
         }
 
@@ -192,13 +204,13 @@ namespace metal
             return false;
         }
 
-        public void AddObject(PhysicalObject physicalObject)
+        public PhysicalObject AddObject(PhysicalObject physicalObject)
         {
             if (objects.Count < 1)
             {
                 objects.Add(physicalObject);
                 
-                return;
+                return physicalObject;
             }
 
             double lr = physicalObject.Layer;
@@ -218,6 +230,8 @@ namespace metal
                 objects.Insert(r, physicalObject);
             else
                 objects.Insert(l, physicalObject);
+
+            return physicalObject;
         }
     }
 }

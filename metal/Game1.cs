@@ -67,13 +67,13 @@ namespace metal
             var ks = Keyboard.GetState();
 
             if (ks.IsKeyDown(Keys.W))
-                ylev += 10;
+                ylev += 5;
             if (ks.IsKeyDown(Keys.S))
-                ylev -= 10;
+                ylev -= 5;
             if (ks.IsKeyDown(Keys.A))
-                xlev += 10;
+                xlev += 5;
             if (ks.IsKeyDown(Keys.D))
-                xlev -= 10;
+                xlev -= 5;
 
             xlev = Math.Max(-testLevel.Width * Level.BlockX * Level.TextureScale + 1920, xlev);
             xlev = Math.Min(0, xlev);
