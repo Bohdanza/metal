@@ -14,20 +14,32 @@ namespace metal
 {
     public abstract class Monster : Mob
     {
-        public List<Action> Actions { get; protected set; }
+        [JsonIgnore]
+        public List<Action<Monster>> Actions { get; protected set; }
+
+        [JsonIgnore]
+        public int CurrentState { get; protected set; } = 0;
 
         public Monster(ContentManager contentManager, float x1, float y1, float x2, float y2, string name)
-            : base(contentManager, x1, y1, x2, y2, name, "id", "d")
+            : base(contentManager, x1, y1, x2, y2, name, "id", "d", 0.65f)
         {
-            Actions.Add(b);
+            Actions = new List<Action<Monster>>();
+
+            Actions.Add(ZeroAction);
         }
 
-        public static void b()
+        public override void Update(ContentManager contentManager, Level level)
         {
+            Actions[CurrentState](this);
 
+            base.Update(contentManager, level);
         }
 
-        protected static void a()
+        /// <summary>
+        /// Just to prevent from chashing
+        /// </summary>
+        /// <param name="monster"></param>
+        public static void ZeroAction(Monster monster)
         {
 
         }

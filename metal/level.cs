@@ -89,6 +89,8 @@ namespace metal
 
             Hero = AddObject(new Hero(contentManager, 2f, 2f, 0.9));
             AddObject(new Box(contentManager, 5f, 10f, 0.9f, 0.9f, "wooden_box", 0.5));
+
+            AddObject(new Crowler(contentManager, 10f, 10f));
         }
 
         public void Update(ContentManager contentManager)
