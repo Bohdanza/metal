@@ -135,7 +135,9 @@ namespace metal
             for (int i = 0; i < objects.Count; i++)
             {
                 objects[i].Draw(spriteBatch,
-                    x + (int)((float)objects[i].X1 * BlockX * TextureScale), y + (int)((float)objects[i].Y1 * BlockY * TextureScale),
+                    x + (int)((float)objects[i].X1 * BlockX * TextureScale),
+                    y + (int)((float)objects[i].Y2 * BlockY * TextureScale)
+                    - objects[i].Texture.GetCurrentFrame().Height * TextureScale,
                     Color.White);
             }
         }
