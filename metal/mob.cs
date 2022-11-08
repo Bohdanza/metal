@@ -25,6 +25,9 @@ namespace metal
         [JsonProperty]
         private string Name;
 
+        [JsonIgnore]
+        protected int TimeSinceLastDamage { get; private set; }
+
         public Mob(ContentManager contentManager, float x1, float y1, float x2, float y2, 
             string name, string action, string direction):base(contentManager, name, x1, y1, x2, y2)
         {
@@ -47,6 +50,9 @@ namespace metal
 
         public override void Update(ContentManager contentManager, Level level)
         {
+            TimeSinceLastDamage %= 10000;
+            TimeSinceLastDamage++;
+
             if(Vector.Y<-0.01)
             {
                 ChangeAction(contentManager, "jumping");
@@ -100,6 +106,9 @@ namespace metal
 
         public void ChangeHP(ContentManager contentManager, int addHP)
         {
+            if (addHP < 0)
+                TimeSinceLastDamage = 0;
+
             HP += addHP;
 
             if(HP<=0)

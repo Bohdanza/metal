@@ -224,6 +224,8 @@ namespace metal
                 color, 0f, new Vector2(0, 0), Level.TextureScale, SpriteEffects.None, 0f);
         }
         
+        public virtual void DrawInterface(SpriteBatch spriteBatch, Color color){}
+
         public virtual void AddVector(Vector2 vector)
         {
             Vector = new Vector2(Vector.X + vector.X, Vector.Y + vector.Y);

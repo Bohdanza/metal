@@ -150,6 +150,8 @@ namespace metal
                     - objects[i].Texture.GetCurrentFrame().Height * TextureScale,
                     Color.White);
             }
+
+            Hero.DrawInterface(spriteBatch, Color.White);
         }
 
         public void Save()
@@ -246,6 +248,11 @@ namespace metal
                 objects.Insert(l, physicalObject);
 
             return physicalObject;
+        }
+
+        public static float GetDist(float x1, float y1, float x2, float y2)
+        {
+            return (float)Math.Sqrt((double)((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
         }
     }
 }

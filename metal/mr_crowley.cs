@@ -23,6 +23,12 @@ namespace metal
             CurrentState = 1;
         }
 
+        public override void Update(ContentManager contentManager, Level level)
+        {
+
+            base.Update(contentManager, level);
+        }
+
         public static void MoveRight(ContentManager contentManager, Monster monster, Level level)
         {
             if (monster.PreviousState == 1 && monster.Vector.X < 0.005f-0.005f/4)
