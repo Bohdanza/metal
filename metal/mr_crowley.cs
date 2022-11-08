@@ -29,6 +29,11 @@ namespace metal
                 monster.CurrentState = 2;
 
             monster.AddVector(new Vector2(0.005f, 0f));
+
+            var rnd = new Random();
+
+            if (rnd.Next(0, 10000) == 0)
+                monster.ChangeHP(contentManager, -100);
         }
 
         public static void MoveLeft(ContentManager contentManager, Monster monster, Level level)

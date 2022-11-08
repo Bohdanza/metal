@@ -106,9 +106,19 @@ namespace metal
                     blocks[i, j].Update(contentManager, this);
                 }
 
-            for (int i=0; i<objects.Count; i++)
+            int l = 1;
+
+            for (int i=0; i<objects.Count; i+=l)
             {
+                l = 1;
+                
                 objects[i].Update(contentManager, this);
+
+                if (objects[i].Delete)
+                {
+                    objects.RemoveAt(i);
+                    l = 0;
+                }
             }
         }   
 

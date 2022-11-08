@@ -14,6 +14,9 @@ namespace metal
 {
     public abstract class PhysicalObject
     {
+        [JsonIgnore]
+        public virtual bool Delete { get; protected set; } = false;
+
         [JsonProperty]
         public bool BlockRigid { get; protected set; }
         [JsonProperty]
@@ -39,6 +42,8 @@ namespace metal
 
         [JsonProperty]
         public double Layer { get; private set; } = 0.5;
+
+        [JsonIgnore]
         protected bool Landed { get; private set; } = false;
 
         /// <summary>

@@ -104,7 +104,7 @@ namespace metal
 
             if(HP<=0)
             {
-                Action = "die";
+                Delete = true;
             }
         }
     }
